@@ -1,5 +1,9 @@
 package com.leantaas.services;
 
-public interface IProjectorManagementService {
+import java.util.List;
 
+import com.leantaas.model.ProjectorManagement;
+
+public interface IProjectorManagementService {
+	List<ProjectorManagement> getAll();
 }

@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 
 import com.leantaas.model.Team;
 import com.leantaas.repository.ITeamRepository;
+import com.leantaas.services.ITeamService;
 
 @Service
-public class TeamService {
+public class TeamService implements ITeamService {
 
 	@Autowired
 	ITeamRepository teamRepository;
-	
-	public List<Team> getAll(){
+
+	public List<Team> getAll() {
 		return teamRepository.findAll();
 	}
 }

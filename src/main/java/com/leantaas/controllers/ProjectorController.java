@@ -13,12 +13,12 @@ import com.leantaas.services.IProjectorService;
 @RestController
 @RequestMapping("/projectors")
 public class ProjectorController {
-	
+
 	@Autowired
 	IProjectorService projectorService;
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public List<Projector> getAllProjectors(){
+	public List<Projector> getAllProjectors() {
 		return projectorService.getAll();
 	}
 }
