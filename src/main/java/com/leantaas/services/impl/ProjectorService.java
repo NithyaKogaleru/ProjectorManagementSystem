@@ -11,12 +11,17 @@ import com.leantaas.services.IProjectorService;
 
 @Service
 public class ProjectorService implements IProjectorService {
-	
+
 	@Autowired
 	IProjectorRepository projectorRepository;
 
 	@Override
-	public List<Projector> getAll() {		
+	public List<Projector> getAll() {
 		return projectorRepository.findAll();
+	}
+
+	@Override
+	public Projector getById(Long id) {
+		return projectorRepository.findById(id);
 	}
 }

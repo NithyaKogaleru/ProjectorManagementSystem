@@ -15,7 +15,13 @@ public class TeamService implements ITeamService {
 	@Autowired
 	ITeamRepository teamRepository;
 
+	@Override
 	public List<Team> getAll() {
 		return teamRepository.findAll();
+	}
+
+	@Override
+	public Team getById(Long id) {
+		return teamRepository.findById(id);
 	}
 }

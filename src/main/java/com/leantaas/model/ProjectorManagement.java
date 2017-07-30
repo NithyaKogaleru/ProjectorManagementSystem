@@ -5,13 +5,17 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "projector_management")
@@ -22,10 +26,10 @@ public class ProjectorManagement implements Serializable {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
 	@Column(name = "is_active")
-	private boolean isActive;
+	private boolean isActive = true;
 
 	@Column(name = "start_time")
 	private Date startTime;
@@ -33,22 +37,37 @@ public class ProjectorManagement implements Serializable {
 	@Column(name = "end_time")
 	private Date endTime;
 
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_time")
+	private Date createdTime;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_time")
 	private Date updatedTime;
 
-	@OneToOne
-	@MapsId
+	public Date getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(Date createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "team_id")
 	private Team team;
 
-	@OneToOne
-	@MapsId
+	@ManyToOne
+	@JoinColumn(name = "projector_id")
 	private Projector projector;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -16,8 +16,19 @@ public class ProjectorManagementService implements IProjectorManagementService {
 	IProjectorManagementRepository projectorManagementRepository;
 
 	@Override
-	public List<ProjectorManagement> getAll() {
+	public List<ProjectorManagement> getAllReservations() {
 		return projectorManagementRepository.findAll();
 	}
 
+	@Override
+	public ProjectorManagement addReservation(ProjectorManagement projectorManagement) {
+		return projectorManagementRepository.save(projectorManagement);
+	}
+
+	@Override
+	public ProjectorManagement cancelReservation(Long id) {
+		ProjectorManagement toUpdate = projectorManagementRepository.getOne(id);
+		toUpdate.setActive(false);
+		return projectorManagementRepository.save(toUpdate);
+	}
 }
