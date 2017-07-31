@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,6 +20,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "projector_management")
+@NamedNativeQuery(name="ProjectorManagement.findAvailableProjector", query= "SELECT * FROM projectors pr WHERE pr.id NOT IN (SELECT DISTINCT pm.projector_id FROM projector_management pm "
+		+ "WHERE (pm.is_active = true) AND ((?1 BETWEEN pm.start_time AND pm.end_time) OR (?2 BETWEEN pm.start_time AND pm.end_time) "
+		+ "OR ((pm.start_time BETWEEN ?1 AND ?2) AND (pm.end_time BETWEEN ?1 AND ?2)))) ORDER BY pr.id LIMIT 1", resultClass=Projector.class)
 public class ProjectorManagement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
