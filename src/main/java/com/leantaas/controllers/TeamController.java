@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leantaas.exceptions.NoDataFoundException;
 import com.leantaas.model.Team;
 import com.leantaas.services.ITeamService;
 
@@ -29,7 +30,13 @@ public class TeamController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public List<Team> getAllTeams() {
-		return teamService.getAll();
+		List<Team> teams = teamService.getAll();
+
+		if (teams == null || teams.size() == 0) {
+			throw new NoDataFoundException();
+		}
+
+		return teams;
 	}
 
 	/**
@@ -42,6 +49,12 @@ public class TeamController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Team getTeamById(@PathVariable(value = "id") Long id) {
-		return teamService.getById(id);
+		Team team = teamService.getById(id);
+
+		if (team == null) {
+			throw new NoDataFoundException();
+		}
+
+		return team;
 	}
 }

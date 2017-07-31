@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leantaas.exceptions.NoDataFoundException;
 import com.leantaas.model.ProjectorManagement;
 import com.leantaas.model.Reservation;
 import com.leantaas.services.IProjectorManagementService;
@@ -34,7 +35,13 @@ public class ProjectorManagementController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public List<ProjectorManagement> getAllReservations() {
-		return projectorManagementService.getAllReservations();
+		List<ProjectorManagement> reservations = projectorManagementService.getAllReservations();
+		
+		if(reservations == null || reservations.size() == 0) {
+			throw new NoDataFoundException();
+		}
+		
+		return reservations;
 	}
 
 	/**
@@ -61,7 +68,13 @@ public class ProjectorManagementController {
 	 */
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	public List<ProjectorManagement> getReservationByTeam(@PathVariable(value = "id") Long id) {
-		return projectorManagementService.getReservationByTeam(id);
+		List<ProjectorManagement> reservationsByTeam = projectorManagementService.getReservationByTeam(id);
+		
+		if(reservationsByTeam == null || reservationsByTeam.size() == 0) {
+			throw new NoDataFoundException();
+		}
+		
+		return reservationsByTeam;
 	}
 
 	/**

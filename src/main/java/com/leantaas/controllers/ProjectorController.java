@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leantaas.exceptions.NoDataFoundException;
 import com.leantaas.model.Projector;
 import com.leantaas.services.IProjectorService;
 
@@ -28,7 +29,13 @@ public class ProjectorController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public List<Projector> getAllProjectors() {
-		return projectorService.getAll();
+		List<Projector> projectors = projectorService.getAll();
+
+		if (projectors == null || projectors.size() == 0) {
+			throw new NoDataFoundException();
+		}
+
+		return projectors;
 	}
 
 	/**
@@ -41,6 +48,12 @@ public class ProjectorController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Projector getProjectorById(@PathVariable(value = "id") Long id) {
-		return projectorService.getById(id);
+		Projector projector = projectorService.getById(id);
+
+		if (projector == null) {
+			throw new NoDataFoundException();
+		}
+
+		return projector;
 	}
 }
