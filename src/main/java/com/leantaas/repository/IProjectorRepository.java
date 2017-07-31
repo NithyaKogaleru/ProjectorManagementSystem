@@ -17,6 +17,6 @@ public interface IProjectorRepository extends JpaRepository<Projector, Long> {
 	List<Projector> findAll();
 
 	Projector findById(Long id);
-	
+
 	long count();
 }

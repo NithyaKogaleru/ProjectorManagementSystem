@@ -29,13 +29,20 @@ public class ProjectorManagementService implements IProjectorManagementService {
 
 	@Override
 	public ProjectorManagement addReservation(ProjectorManagement projectorManagement) {
-		Reservation reservation = checkAvailability(projectorManagement.getStartTime(), projectorManagement.getEndTime());
-		if(reservation.isAvailable()) {
-			projectorManagement.setProjector(reservation.getProjector());
+		Reservation reservation = checkAvailability(projectorManagement.getStartTime(),
+				projectorManagement.getEndTime());
+		projectorManagement.setProjector(reservation.getProjector());
+
+		if (reservation.isAvailable()) {
 			return projectorManagementRepository.save(projectorManagement);
-		}
-		else{
+		} else {
+			/*
+			 * This for suggesting suitable available time if there is no current
+			 * availability
+			 */
 			projectorManagement.setActive(false);
+			projectorManagement.setStartTime(reservation.getStartTime());
+			projectorManagement.setEndTime(reservation.getEndTime());
 		}
 		return projectorManagement;
 	}
@@ -51,13 +58,20 @@ public class ProjectorManagementService implements IProjectorManagementService {
 	public Reservation checkAvailability(Date startTime, Date endTime) {
 		Reservation reservation = new Reservation();
 		Projector availableProjector = projectorManagementRepository.findAvailableProjector(startTime, endTime);
-		if(availableProjector != null) {
+		if (availableProjector != null) {
 			reservation.setAvailable(true);
 			reservation.setProjector(availableProjector);
 			reservation.setStartTime(startTime);
 			reservation.setEndTime(endTime);
+		} else {
+			// TODO: suggest a suitable available time as there is no current availability.
 		}
-		
+
 		return reservation;
+	}
+
+	@Override
+	public List<ProjectorManagement> getReservationByTeam(Long id) {
+		return projectorManagementRepository.find(id);
 	}
 }

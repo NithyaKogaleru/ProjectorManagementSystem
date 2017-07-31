@@ -21,6 +21,9 @@ public interface IProjectorManagementRepository extends JpaRepository<ProjectorM
 
 	ProjectorManagement getOne(Long id);
 
-	@Query(nativeQuery=true)
+	@Query(nativeQuery = true)
 	Projector findAvailableProjector(Date start_time, Date end_time);
+
+	@Query("SELECT pm FROM ProjectorManagement pm WHERE pm.isActive = true AND pm.team.id = ?1")
+	List<ProjectorManagement> find(Long id);
 }

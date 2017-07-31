@@ -2,6 +2,9 @@ package com.leantaas.model;
 
 import java.util.Date;
 
+/**
+ * @author Nithya Kogaleru POJO for reservation availability.
+ */
 public class Reservation {
 
 	private boolean isAvailable;

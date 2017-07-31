@@ -15,6 +15,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Nithya Kogaleru Entity for Team Object model in DB.
+ */
 @Entity
 @Table(name = "teams")
 public class Team implements Serializable {

@@ -15,6 +15,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Nithya Kogaleru Entity for projector DB object model.
+ *
+ */
 @Entity
 @Table(name = "projectors")
 public class Projector implements Serializable {
@@ -22,7 +26,7 @@ public class Projector implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
 
@@ -30,7 +34,7 @@ public class Projector implements Serializable {
 	private String name;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="projector", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projector", cascade = CascadeType.ALL)
 	private Set<ProjectorManagement> projectorManagement;
 
 	public Set<ProjectorManagement> getProjectorManagement() {
